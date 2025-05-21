@@ -1,0 +1,46 @@
+-- Task 6: Sales Trend Analysis Using Aggregations
+-- Dataset: online_sales (order_id, order_date, amount, product_id)
+
+-- Create the table
+CREATE TABLE online_sales (
+    order_id INT,
+    order_date DATE,
+    amount DECIMAL(10,2),
+    product_id INT
+);
+
+-- Insert sample data (6 rows)
+INSERT INTO online_sales (order_id, order_date, amount, product_id)
+VALUES 
+(1, '2024-01-05', 120.00, 101),
+(2, '2024-01-18', 180.00, 102),
+(3, '2024-02-02', 210.00, 103),
+(4, '2024-02-25', 90.00, 104),
+(5, '2024-03-10', 250.00, 105),
+(6, '2024-03-20', 300.00, 106);
+
+-- Query 1: Monthly Revenue and Order Volume
+SELECT 
+    YEAR(order_date) AS year,
+    MONTH(order_date) AS month,
+    SUM(amount) AS monthly_revenue,
+    COUNT(DISTINCT order_id) AS order_volume
+FROM 
+    online_sales
+GROUP BY 
+    year, month
+ORDER BY 
+    year, month;
+
+-- Query 2: Top 6 Months by Revenue
+SELECT 
+    YEAR(order_date) AS year,
+    MONTH(order_date) AS month,
+    SUM(amount) AS monthly_revenue
+FROM 
+    online_sales
+GROUP BY 
+    year, month
+ORDER BY 
+    monthly_revenue DESC
+LIMIT 6;
